@@ -12,7 +12,12 @@ class UserDetails extends Model
     protected $fillable = [
         'user_id',
         'bio_data',
+        'fav',
         'status'
+    ];
+
+    protected $casts = [
+        'fav' => 'array', 
     ];
    
        public function user() {

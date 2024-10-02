@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\User;
 use App\Models\UserDetails;
@@ -22,21 +23,39 @@ class UserController extends Controller
         $user = array();
         $user = Auth::user();
         $doctor = User::where('type', 'doctor')->get();
+        $details = $user->user_details;
         $doctorData = Doctor::all();
+        $date = now()->format('d/m/Y');
+        $appointment = Appointment::where('date', $date)->where('status', 'upcoming')->first();
 
         foreach($doctorData as $data) {
             foreach($doctor as $info) {
                 if($data['doc_id'] == $info['id']){
                     $data['doctor_name'] = $info['name'];
                     $data['doctor_profile'] = $info['profile_photo_url'];
+                    if(isset($appointment) && $appointment['doc_id'] == $info['id']) {
+                        $data['appointments'] = $appointment;
+                    }
                 }
             }
         }
 
         $user['doctor'] = $doctorData;
-
+        $user['details'] = $details;
+ 
         return $user;
 
+    }
+
+    public function storeFavDoc(Request $request) {
+        $saveFav = UserDetails::where("user_id", Auth::user()->id)->first();
+        $docList = json_encode($request->get('favList'));
+        $saveFav->fav = $docList;
+        $saveFav->save();
+
+        return response()->json([
+            'success' => 'The Favorite List is updated'
+        ], 200);
     }
 
      /**
@@ -124,8 +143,12 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function logout(Request $request)
     {
-        //
+        $user = Auth::user();
+        $user->currentAccessToken()->delete();
+        return response()->json([
+          'success' => 'Logout successfully!'
+        ], 200);
     }
 }

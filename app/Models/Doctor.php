@@ -15,10 +15,19 @@ class Doctor extends Model
      'patients',
      'experience',
      'bio_data',
-     'status'
+     'status',
+     'local'
+    ];
+
+    protected $casts = [
+    'local' => 'array'
     ];
 
     public function user() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, "doc_id");
+    }
+
+    public function appointments(){
+        return $this->hasMany(Appointment::class, "doc_id");
     }
 }

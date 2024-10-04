@@ -24,11 +24,13 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'experience' => ['required', 'integer', 'min:0', 'max:60'],
             'category' => ['required', 'string', 'max:255'],
             'bio_data' => ['nullable', 'string', 'max:1000'],
+            'place' => ['nullable', 'array']
         ])->validateWithBag('updateProfileInformation');
 
         if (isset($input['photo'])) {
             $user->updateProfilePhoto($input['photo']);
         }
+
 
         if ($input['email'] !== $user->email &&
             $user instanceof MustVerifyEmail) {
@@ -43,7 +45,10 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'experience' => $input['experience'], 
                 'category' => $input['category'],     
                 'bio_data' => $input['bio_data'],
+                'local' => $input['place']
             ]);
+
+           
         }
     }
 

@@ -4,14 +4,17 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
+      
+
+ 
 
     <div class="min-h-screen py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex  justify-center bg-gray-100 py-10 p-14">
                 <div class="container mx-auto pr-4">
                     <div class="w-72 bg-white max-w-xs mx-auto rounded-sm overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-100 cursor-pointer">
-                       <div class="h-20 bg-blue-500 flex items-center justify-between">
-                         <p class="mr-0 text-white text-lg pl-5">UPCOMING APPOINTMENTS</p>
+                       <div class="h-20 bg-green-500 flex items-center justify-between">
+                         <p class="mr-0 text-white text-lg pl-5">AGENDAMENTOS FUTUROS</p>
                        </div>
                        <div class="flex justify-between px-5 pt-6 mb-2 text-sm text-gray-600">
                         <p>TOTAL</p>
@@ -21,8 +24,8 @@
                 </div>
                 <div class="container mx-auto pr-4">
                     <div class="w-72 bg-white max-w-xs mx-auto rounded-sm overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-100 cursor-pointer">
-                       <div class="h-20 bg-blue-500 flex items-center justify-between">
-                         <p class="mr-0 text-white text-lg pl-5">PATIENTS</p>
+                       <div class="h-20 bg-green-500 flex items-center justify-between">
+                         <p class="mr-0 text-white text-lg pl-5">PACIENTES</p>
                        </div>
                        <div class="flex justify-between px-5 pt-6 mb-2 text-sm text-gray-600">
                         <p>TOTAL</p>
@@ -32,8 +35,8 @@
                 </div>
                 <div class="container mx-auto pr-4">
                     <div class="w-72 bg-white max-w-xs mx-auto rounded-sm overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-100 cursor-pointer">
-                       <div class="h-20 bg-blue-500 flex items-center justify-between">
-                         <p class="mr-0 text-white text-lg pl-5">RATINGS</p>
+                       <div class="h-20 bg-green-500 flex items-center justify-between">
+                         <p class="mr-0 text-white text-lg pl-5">AVALIAÇÃO GERAL</p>
                        </div>
                        <div class="flex justify-between px-5 pt-6 mb-2 text-sm text-gray-600">
                         <p>TOTAL</p>
@@ -62,8 +65,8 @@
                 </div>
                 <div class="container mx-auto pr-4">
                     <div class="w-72 bg-white max-w-xs mx-auto rounded-sm overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-100 cursor-pointer">
-                       <div class="h-20 bg-blue-500 flex items-center justify-between">
-                         <p class="mr-0 text-white text-lg pl-5">REVIEWS</p>
+                       <div class="h-20 bg-green-500 flex items-center justify-between">
+                         <p class="mr-0 text-white text-lg pl-5">AVALIAÇÕES</p>
                        </div>
                        <div class="flex justify-between px-5 pt-6 mb-2 text-sm text-gray-600">
                         <p>TOTAL</p>
@@ -77,7 +80,7 @@
                     <div class="col-md-7 mt-4">
                         <div class="card">
                             <div class="card-header my-3 pb-0 px-3">
-                                <h6 class="mb-0">Latest Reviews</h6>
+                                <h6 class="mb-0">Últimas Avaliações</h6>
                             </div>
                             <div class="card-body pt-4 p-3">
                                 @if(isset($reviews) && !$reviews->isEmpty())
@@ -100,7 +103,7 @@
                                  </ul>
                                 @else 
                                   <div class="border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
-                                    <h6 class="mb-3 text-sm">No Reviews Yet!</h6>
+                                    <h6 class="mb-3 text-sm">Nenhum Avaliação Ainda!</h6>
                                   </div>
                                 @endif
                             </div>

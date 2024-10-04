@@ -28,6 +28,7 @@ class User extends Authenticatable
         'type',
         'email',
         'password',
+        'device_key'
     ];
 
     /**
@@ -49,6 +50,7 @@ class User extends Authenticatable
      */
     protected $appends = [
         'profile_photo_url',
+        'profile_photo_url_dashboard'
     ];
 
     /**
@@ -78,5 +80,23 @@ class User extends Authenticatable
 
     public function reviews(){
         return $this->hasMany(Review::class, "user_id");
+    }
+
+    public function linkedSocialAccounts()
+{
+    return $this->hasOne(LinkedSocialAccount::class);
+}
+
+    protected function defaultProfilePhotoUrl()
+    {
+        $firstLetter = strtoupper(substr($this->name, 0, 1)); 
+        return 'https://ui-avatars.com/api/?name=' . urlencode($firstLetter) . '&color=00FF00&background=EBF4FF&size=50';
+    }
+
+    
+
+    public function getProfilePhotoUrlDashboardAttribute() {
+        $firstLetter = strtoupper(substr($this->name, 0, 1)); 
+        return 'https://ui-avatars.com/api/?name=' . urlencode($firstLetter) . '&color=00FF00&background=EBF4FF'; // Tamanho maior para o dashboard
     }
 }

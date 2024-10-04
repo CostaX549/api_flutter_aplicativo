@@ -15,7 +15,7 @@ class DocsController extends Controller
     public function index()
     {
         $doctor = Auth::user();
-        $appointments = Appointment::where("doc_id", $doctor->id)->where("status", "upcoming")->get();
+        $appointments = Appointment::where("doc_id", $doctor->id)->where("status", "futuro")->get();
         $reviews = Review::where("doc_id", $doctor->id)->where("status", "active")->get();
         return view('dashboard')->with(['doctor' => $doctor, 'appointments' => $appointments, 'reviews' => $reviews]);
     }
@@ -42,7 +42,7 @@ class DocsController extends Controller
     $review->reviewed_by = Auth::user()->name;
     $review->status ='active';
     $review->save();
-    $appointment->status = 'complete';
+    $appointment->status = 'completo';
     $appointment->save();
 
     return response()->json([

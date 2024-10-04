@@ -48,12 +48,19 @@ class AppointmentsController extends Controller
         $appointment->date = $request->get("date");
         $appointment->day = $request->get("day");
         $appointment->time = $request->get("time");
-        $appointment->status= 'upcoming';
+        $appointment->status= 'futuro';
         $appointment->save();
         return response()->json([
             'success' => 'New Appointment has been made successfully!',
             
         ], 200);
+    }
+
+    public function agendamentos() {
+       $agendamentos = auth()->user()->doctor->appointments;
+
+        return view('agendamentos')->with([ 'agendamentos' => $agendamentos]);
+
     }
 
     /**

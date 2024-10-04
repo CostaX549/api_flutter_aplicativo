@@ -6,7 +6,8 @@ use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\User;
 use App\Models\UserDetails;
-use Dotenv\Exception\ValidationException;
+use App\Models\WorkingHour;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -19,33 +20,41 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $user = array();
-        $user = Auth::user();
-        $doctor = User::where('type', 'doctor')->get();
-        $details = $user->user_details;
-        $doctorData = Doctor::all();
-        $date = now()->format('d/m/Y');
-        $appointment = Appointment::where('date', $date)->where('status', 'upcoming')->first();
+{
+    $user = array();
+    $user = Auth::user();
+    $doctor = User::where('type', 'doctor')->get();
+    $details = $user->user_details;
+    $doctorData = Doctor::all();
+    $date = now()->format('d/m/Y');
+    $appointment = Appointment::where('date', $date)->where('status', 'futuro')->first();
 
-        foreach($doctorData as $data) {
-            foreach($doctor as $info) {
-                if($data['doc_id'] == $info['id']){
-                    $data['doctor_name'] = $info['name'];
-                    $data['doctor_profile'] = $info['profile_photo_url'];
-                    if(isset($appointment) && $appointment['doc_id'] == $info['id']) {
-                        $data['appointments'] = $appointment;
-                    }
+    foreach ($doctorData as $data) {
+        foreach ($doctor as $info) {
+            if ($data['doc_id'] == $info['id']) {
+                $data['doctor_name'] = $info['name'];
+                $data['doctor_profile'] = $info['profile_photo_url'];
+                
+                // Load appointments if any
+                if (isset($appointment) && $appointment['doc_id'] == $info['id']) {
+                    $data['appointments'] = $appointment;
                 }
+
+                // Load working hours for the doctor
+                $workingHours = WorkingHour::where('doc_id', $info['id'])->get();
+                $data['working_hours'] = $workingHours;
+
+                // Break out of the inner loop as we've found the doctor
+                break;
             }
         }
-
-        $user['doctor'] = $doctorData;
-        $user['details'] = $details;
- 
-        return $user;
-
     }
+
+    $user['doctor'] = $doctorData;
+    $user['details'] = $details;
+
+    return $user;
+}
 
     public function storeFavDoc(Request $request) {
         $saveFav = UserDetails::where("user_id", Auth::user()->id)->first();
@@ -111,9 +120,12 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function storeToken(Request $request)
     {
-        //
+        $token = $request->token;
+        auth()->user()->device_key = $token;
+        auth()->user()->save();
+        
     }
 
     /**
